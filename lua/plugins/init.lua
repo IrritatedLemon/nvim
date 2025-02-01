@@ -37,7 +37,10 @@ return {
 
                 local function make_diagnostic_color(color)
                     local c = require("kanagawa.lib.color")
-                    return { fg = color, bg = c(color):blend(theme.ui.bg, 0.95):to_hex() }
+                    return {
+                        fg = color,
+                        bg = c(color):blend(theme.ui.bg, 0.95):to_hex(),
+                    }
                 end
 
                 return {
@@ -60,22 +63,36 @@ return {
                     TelescopeTitle = { fg = theme.ui.special, bold = true },
                     TelescopePromptNormal = { bg = theme.ui.bg_p1 },
                     TelescopePromptBorder = { bg = theme.ui.bg_p1 },
-                    TelescopeResultsNormal = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m1 },
-                    TelescopeResultsBorder = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m1 },
+                    TelescopeResultsNormal = {
+                        fg = theme.ui.fg_dim,
+                        bg = theme.ui.bg_m1,
+                    },
+                    TelescopeResultsBorder = {
+                        fg = theme.ui.fg_dim,
+                        bg = theme.ui.bg_m1,
+                    },
                     TelescopePreviewNormal = { bg = theme.ui.bg_dim },
                     TelescopePreviewBorder = { bg = theme.ui.bg_dim },
 
-                    DiagnosticVirtualTextError = make_diagnostic_color(theme.diag.error),
-                    DiagnosticVirtualTextWarn = make_diagnostic_color(theme.diag.warning),
-                    DiagnosticVirtualTextInfo = make_diagnostic_color(theme.diag.info),
-                    DiagnosticVirtualTextHint = make_diagnostic_color(theme.diag.hint),
+                    DiagnosticVirtualTextError = make_diagnostic_color(
+                        theme.diag.error
+                    ),
+                    DiagnosticVirtualTextWarn = make_diagnostic_color(
+                        theme.diag.warning
+                    ),
+                    DiagnosticVirtualTextInfo = make_diagnostic_color(
+                        theme.diag.info
+                    ),
+                    DiagnosticVirtualTextHint = make_diagnostic_color(
+                        theme.diag.hint
+                    ),
 
                     Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 },
                     PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
                     PmenuSBar = { bg = theme.ui.bg_m1 },
                     PmenuThumb = { bg = theme.ui.bg_p2 },
                 }
-            end
+            end,
         },
         config = function(_, opts)
             local kanagawa = require("kanagawa")
@@ -88,7 +105,7 @@ return {
 
             kanagawa.setup(opts)
             kanagawa.load(theme)
-        end
+        end,
     },
     {
         "akinsho/bufferline.nvim",
@@ -124,23 +141,30 @@ return {
             "nvim-lua/plenary.nvim",
             "nvim-lua/popup.nvim",
             "nvim-telescope/telescope-media-files.nvim",
-            "nvim-telescope/telescope-file-browser.nvim"
+            "nvim-telescope/telescope-file-browser.nvim",
         },
         config = function()
             local telescope = require("telescope")
 
-            local vimgrep_arguments = require("telescope.config").values.vimgrep_arguments
+            local vimgrep_arguments =
+                require("telescope.config").values.vimgrep_arguments
             table.insert(vimgrep_arguments, "--hidden")
             table.insert(vimgrep_arguments, "--glob")
             table.insert(vimgrep_arguments, "!**/.git/*")
 
-            telescope.setup {
+            telescope.setup({
                 defaults = {
                     vimgrep_arguments = vimgrep_arguments,
                 },
                 pickers = {
                     find_files = {
-                        find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+                        find_command = {
+                            "rg",
+                            "--files",
+                            "--hidden",
+                            "--glob",
+                            "!**/.git/*",
+                        },
                     },
                 },
                 extensions = {
@@ -148,27 +172,61 @@ return {
                         find_cmd = "rg",
                     },
                 },
-            }
+            })
 
             require("telescope").load_extension("media_files")
             require("telescope").load_extension("file_browser")
 
             local builtin = require("telescope.builtin")
 
-            vim.keymap.set('n', '<Leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-            vim.keymap.set('n', '<Leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-            vim.keymap.set('n', '<Leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-            vim.keymap.set('n', '<Leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-            vim.keymap.set('n', '<Leader>fs', builtin.git_status, { desc = 'Telescope check git status' })
-            vim.keymap.set('n', '<Leader>fc', builtin.git_commits, { desc = 'Telescope check git commits' })
+            vim.keymap.set(
+                "n",
+                "<Leader>ff",
+                builtin.find_files,
+                { desc = "Telescope find files" }
+            )
+            vim.keymap.set(
+                "n",
+                "<Leader>fg",
+                builtin.live_grep,
+                { desc = "Telescope live grep" }
+            )
+            vim.keymap.set(
+                "n",
+                "<Leader>fb",
+                builtin.buffers,
+                { desc = "Telescope buffers" }
+            )
+            vim.keymap.set(
+                "n",
+                "<Leader>fh",
+                builtin.help_tags,
+                { desc = "Telescope help tags" }
+            )
+            vim.keymap.set(
+                "n",
+                "<Leader>fs",
+                builtin.git_status,
+                { desc = "Telescope check git status" }
+            )
+            vim.keymap.set(
+                "n",
+                "<Leader>fc",
+                builtin.git_commits,
+                { desc = "Telescope check git commits" }
+            )
 
-            vim.keymap.set("n", "<Leader>ft", require("telescope").extensions.file_browser.file_browser)
+            vim.keymap.set(
+                "n",
+                "<Leader>ft",
+                require("telescope").extensions.file_browser.file_browser
+            )
         end,
     },
     {
         "lewis6991/gitsigns.nvim",
         config = function()
-            require("gitsigns").setup {
+            require("gitsigns").setup({
                 signs = {
                     add = { text = "|" },
                     change = { text = "|" },
@@ -178,8 +236,8 @@ return {
                     untracked = { text = "┆" },
                 },
                 signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
-                numhl = true,      -- Toggle with `:Gitsigns toggle_numhl`
-                linehl = false,    -- Toggle with `:Gitsigns toggle_linehl`
+                numhl = true, -- Toggle with `:Gitsigns toggle_numhl`
+                linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
                 word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
                 watch_gitdir = {
                     interval = 1000,
@@ -206,19 +264,37 @@ return {
                     row = 0,
                     col = 1,
                 },
-            }
+            })
 
             -- Fix to get Gitsigns to have a transparent background
             local function get_color(group, attr)
-                return vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID(group)), attr)
+                return vim.fn.synIDattr(
+                    vim.fn.synIDtrans(vim.fn.hlID(group)),
+                    attr
+                )
             end
 
-            vim.api.nvim_set_hl(0, "GitSignsAdd", { fg = get_color("GitSignsAdd", "fg"), bg = "NONE" })
-            vim.api.nvim_set_hl(0, "GitSignsChange", { fg = get_color("GitSignsChange", "fg"), bg = "NONE" })
-            vim.api.nvim_set_hl(0, "GitSignsDelete", { fg = get_color("GitSignsDelete", "fg"), bg = "NONE" })
-            vim.api.nvim_set_hl(0, "GitSignsChangeDelete",
-                { fg = get_color("GitSignsChangeDelete", "fg"), bg = "NONE" })
-        end
+            vim.api.nvim_set_hl(
+                0,
+                "GitSignsAdd",
+                { fg = get_color("GitSignsAdd", "fg"), bg = "NONE" }
+            )
+            vim.api.nvim_set_hl(
+                0,
+                "GitSignsChange",
+                { fg = get_color("GitSignsChange", "fg"), bg = "NONE" }
+            )
+            vim.api.nvim_set_hl(
+                0,
+                "GitSignsDelete",
+                { fg = get_color("GitSignsDelete", "fg"), bg = "NONE" }
+            )
+            vim.api.nvim_set_hl(
+                0,
+                "GitSignsChangeDelete",
+                { fg = get_color("GitSignsChangeDelete", "fg"), bg = "NONE" }
+            )
+        end,
     },
     {
         "dstein64/vim-startuptime",
@@ -232,7 +308,7 @@ return {
         dependencies = {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
-            "saghen/blink.cmp"
+            "saghen/blink.cmp",
         },
         opts = lsp_configurations,
         config = function(_, opts)
@@ -246,7 +322,9 @@ return {
 
             for _, server in pairs(lsp_servers) do
                 local config = opts[server] or {}
-                config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+                config.capabilities = require("blink.cmp").get_lsp_capabilities(
+                    config.capabilities
+                )
 
                 lspconfig[server].setup(config)
             end
@@ -256,7 +334,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
         build = function()
             require("nvim-treesitter.install").update({ with_sync = true })()
-            require("nvim-treesitter.configs").setup {
+            require("nvim-treesitter.configs").setup({
                 ensure_installed = treesitter_langs,
                 sync_install = false,
                 auto_install = true,
@@ -271,8 +349,8 @@ return {
                 },
                 modules = {},
                 ignore_install = {},
-            }
-        end
+            })
+        end,
     },
     {
         "windwp/nvim-autopairs",
@@ -288,14 +366,14 @@ return {
         opts = {
             library = {
                 { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-                { path = "wezterm-types",      mods = { "wezterm " } },
+                { path = "wezterm-types", mods = { "wezterm " } },
             },
         },
     },
     {
         "saghen/blink.cmp",
         dependencies = {
-            "rafamadriz/friendly-snippets"
+            "rafamadriz/friendly-snippets",
         },
         version = "*",
         opts = {
@@ -324,18 +402,17 @@ return {
         config = function(_, opts)
             require("blink.cmp").setup(opts)
 
-            vim.cmd [[
+            vim.cmd([[
                 highlight BlinkCmpMenu guibg=NONE ctermbg=NONE
                 highlight BlinkCmpMenuBorder guibg=NONE ctermbg=NONE
                 highlight BlinkCmpDoc guibg=NONE ctermbg=NONE
                 highlight BlinkCmpDocBorder guibg=NONE ctermbg=NONE
-            ]]
-        end
+            ]])
+        end,
     },
     {
         "stevearc/dressing.nvim",
-        opts = {
-        },
+        opts = {},
     },
     {
         "akinsho/toggleterm.nvim",
@@ -344,8 +421,7 @@ return {
             if vim.fn.has("win32") then
                 local powershell_options = {
                     shell = "powershell",
-                    shellcmdflag =
-                    "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+                    shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
                     shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
                     shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
                     shellquote = "",
@@ -357,7 +433,7 @@ return {
                 end
             end
 
-            require("toggleterm").setup {
+            require("toggleterm").setup({
                 size = 10,
                 open_mapping = [[<F7>]],
                 shading_factor = 2,
@@ -369,7 +445,7 @@ return {
                         background = "Normal",
                     },
                 },
-            }
+            })
         end,
     },
 }

@@ -2,7 +2,7 @@ local _augroups = {}
 
 local function get_augroup(client)
     if not _augroups[client.id] then
-        local group_name = 'lsp-format-' .. client.name
+        local group_name = "lsp-format-" .. client.name
         local id = vim.api.nvim_create_augroup(group_name, { clear = true })
         _augroups[client.id] = id
     end
@@ -12,21 +12,18 @@ end
 
 local _border = "rounded"
 
-vim.diagnostic.config {
+vim.diagnostic.config({
     float = { border = _border },
-}
+})
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-    vim.lsp.handlers.hover, {
-        border = _border
-    }
-)
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+    border = _border,
+})
 
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-    vim.lsp.handlers.signature_help, {
-        border = _border
-    }
-)
+vim.lsp.handlers["textDocument/signatureHelp"] =
+    vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = _border,
+    })
 
 vim.api.nvim_create_autocmd("LspAttach", {
     group = vim.api.nvim_create_augroup("lsp", { clear = true }),
@@ -43,12 +40,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
             group = get_augroup(client),
             buffer = bufnr,
             callback = function()
-                vim.lsp.buf.format {
+                vim.lsp.buf.format({
                     async = false,
                     filter = function(c)
                         return c.id == client.id
                     end,
-                }
+                })
             end,
         })
 
