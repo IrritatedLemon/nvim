@@ -4,11 +4,12 @@ local lsp_servers = {
     "jsonls",
     "lua_ls",
     "pyright",
+    "rust_analyzer",
     "zls",
 }
 
 -- Required languages for Treesitter
-local treesitter_langs = { "c", "lua", "python", "zig" }
+local treesitter_langs = { "c", "lua", "python", "rust", "zig" }
 
 -- Special LSP lsp_configurations
 local lsp_configurations = {}
